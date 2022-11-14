@@ -18,12 +18,8 @@ public:
 	int get_field3(void) const { return field3; }
 	char get_field4(void) const { return field4; }
 	
-	bool is_valid(void) const return {(field4 < 'a' || field4 > 'z') && (field4 < 'A' || field4 > 'Z') && (field4 < '0' || field4 > '9');}
-	
-	bool operator==(ISBN a, ISBN b); // in caso bisogna aggiungere operatore per vedere se sono diversi
-	
-	std::ostream& operator<<(std::ostream& os, ISBN a);
-	
+	bool is_valid(void) const { return (field4 < 'a' || field4 > 'z') && (field4 < 'A' || field4 > 'Z') && (field4 < '0' || field4 > '9');}
+
 	class InvalidIdentifier {};
 	
 private:
@@ -33,5 +29,9 @@ private:
 	char field4;
 	};
 	
+bool operator==(ISBN a, ISBN b);
+
+std::ostream& operator<<(std::ostream& os, ISBN a);
 
 #endif // ISBN_H
+

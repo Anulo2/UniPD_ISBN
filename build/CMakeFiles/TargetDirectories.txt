@@ -1,4 +1,0 @@
-/home/hulk/9/es2043919/es2043919/UniPD_ISBN/build/CMakeFiles/rebuild_cache.dir
-/home/hulk/9/es2043919/es2043919/UniPD_ISBN/build/CMakeFiles/edit_cache.dir
-/home/hulk/9/es2043919/es2043919/UniPD_ISBN/build/CMakeFiles/main.dir
-/home/hulk/9/es2043919/es2043919/UniPD_ISBN/build/CMakeFiles/rational.dir

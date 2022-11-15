@@ -11,8 +11,6 @@ ISBN::ISBN(std::string isbn){
 	int start = 0;
     int end = isbn.find("-");
     while (end != -1) {
-    	
-        //std::cout << isbn.substr(start, end - start) << std::endl;
         fields.push_back(isbn.substr(start, end - start));
         start = end + 1;
         end = isbn.find("-", start);
@@ -20,10 +18,16 @@ ISBN::ISBN(std::string isbn){
 
     fields.push_back(isbn.substr(start, end - start));
     
-    field1 =std::stoi(fields[0]);
+    field1 = std::stoi(fields[0]);
+    std::cout << std::stoi(fields[0]) << "\n";
+    std::cout << std::stoi(fields[1]) << "\n";
+    std::cout << std::stoi(fields[2]) << "\n";
     field2 = std::stoi(fields[1]);
     field3 = std::stoi(fields[2]);
     field4 = fields[3][0];
+    if ((field4 < 'a' || field4 > 'z') && (field4 < 'A' || field4 > 'Z') && (field4 < '0' || field4 > '9')){
+		throw InvalidIdentifier();
+	}
     
 }
 

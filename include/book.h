@@ -29,7 +29,8 @@ public:
 	std::string name(void) const { return _name; }
 	std::string surname(void) const { return _surname; }
 	std::string title(void) const { return _title; }
-	ISBN isbn(void) const { return *_isbn; }
+
+	ISBN *isbn(void) const { return _isbn; }
 	
 	Date *release(void) const { return _release; }
 	bool status(void) const { return _status; }

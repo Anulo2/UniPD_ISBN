@@ -87,8 +87,21 @@ void Book::set_returned(Date returned_in){
 }*/
 
 std::ostream& operator<<(std::ostream& os, Book a){
-    return os << a.title() << " \n" << a.surname() << ((a.surname() == "") ? "": " ") << a.name() << " \n" << a.isbn() << " \n" << a.release();
-
+    os << ((a.title() == "") ? "Titolo non presente" : a.title());
+    os << "\n" << ((a.surname() == "") ? "Cognome non presente" : a.surname()) << ", " << ((a.name() == "") ? "Nome non presente" : a.name());
+    if (a.isbn() != nullptr){
+        os << "\n" << *a.isbn();
+    }
+    else{
+        os << "";
+    }
+    if (a.release() != nullptr){
+        os << "\n" << *a.release();
+    }
+    else{
+        os << "";
+    }
+    return os;
 }
 
 bool operator==(Book a, Book b){

@@ -29,6 +29,7 @@ int main(int argc, char **argv)
     Book book6("Matteo", "Manenti", "Racconti da lo torbido medioevo", &isbn1, &date1);
     Book book7("Matteo", "Manenti", "Racconti da lo torbido medioevo", "222-333-444-c", &date1);
     
+    
     cout << book1 << "\n";
     cout << book2 << "\n";
     cout << book3 << "\n";
@@ -36,6 +37,7 @@ int main(int argc, char **argv)
     cout << book5 << "\n";
     cout << book6 << "\n";
     cout << book7 << "\n";
+    /*
     
     Rational default_rational;
     cout << "Default rational is: " << default_rational << endl;
@@ -131,7 +133,7 @@ int main(int argc, char **argv)
     
     // Gcd e Lcm sono liberamente accessibili :)
     cout << "Testing Gcd and Lcm: " << Gcd(4, -8) << " " << Lcm(7, -11) << endl;
-    
+    */
 	return 0;
 }
 

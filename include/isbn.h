@@ -11,7 +11,6 @@ class ISBN
 {
 public:
 
-	ISBN();
 	ISBN(int field1_in, int field2_in, int field3_in, char field4_in);
 	ISBN(std::string isbn);
 	
@@ -35,7 +34,8 @@ private:
 	
 bool operator==(ISBN a, ISBN b);
 
-std::ostream& operator<<(std::ostream& os, ISBN a);
+std::ostream& operator<<(std::ostream& os, ISBN &a);
+std::ostream& operator<<(std::ostream& os, ISBN *a);
 
 #endif // ISBN_H
 

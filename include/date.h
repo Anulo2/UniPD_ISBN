@@ -10,7 +10,6 @@ class Date {
 public:
 	
 	Date (int y, int m, int d); // check e inizializza
-	Date();
 	
 	int get_day(void) {return d;}
 	int get_month(void) {return m;}
@@ -24,7 +23,8 @@ private:
 	
 };
 
-std::ostream& operator<<(std::ostream& os, Date a);
+std::ostream& operator<<(std::ostream& os, Date &a);
+std::ostream& operator<<(std::ostream& os, Date *a);
 bool operator==(Date a, Date b);
 
 bool is_leap(int year);

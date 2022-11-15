@@ -11,22 +11,31 @@ double const_function(const Rational& r);
 int main(int argc, char **argv)
 {
     
-    Date date1;
-    Date date2(2022, 11,15);
+    Date date1(2022, 11,15);
 
     cout << date1 << "\n";
-    cout << date2 << "\n";
 
-    ISBN isbn1;
-    ISBN isbn2("233-333-444-c");
-    ISBN isbn3(123, 345, 567, 'c');
+    ISBN isbn1("222-333-444-c");
+    ISBN isbn2(222, 333, 444, 'c');
 
     cout << isbn1 << "\n";
     cout << isbn2 << "\n";
-    cout << isbn3 << "\n";
     
-
-    Book racconti("Matteo", "Manenti", "Racconti da lo torbido medioevo", "233-333-444-c");
+    Book book1("Matteo");
+    Book book2("Matteo", "Manenti");
+    Book book3("Matteo", "Manenti", "Racconti da lo torbido medioevo");
+    Book book4("Matteo", "Manenti", "Racconti da lo torbido medioevo", &isbn1);
+    Book book5("Matteo", "Manenti", "Racconti da lo torbido medioevo", "222-333-444-c");
+    Book book6("Matteo", "Manenti", "Racconti da lo torbido medioevo", &isbn1, &date1);
+    Book book7("Matteo", "Manenti", "Racconti da lo torbido medioevo", "222-333-444-c", &date1);
+    
+    cout << book1 << "\n";
+    cout << book2 << "\n";
+    cout << book3 << "\n";
+    cout << book4 << "\n";
+    cout << book5 << "\n";
+    cout << book6 << "\n";
+    cout << book7 << "\n";
     
     Rational default_rational;
     cout << "Default rational is: " << default_rational << endl;

@@ -6,10 +6,6 @@ Date::Date(int yy, int mm, int dd) : y {yy}, m{mm}, d{dd}{
 	if (!is_valid()) throw Invalid();
 }
 
-Date::Date() : y{0}, m{0}, d{0}{
-	
-}
-
 
 
 bool Date::is_valid(){
@@ -19,8 +15,14 @@ bool Date::is_valid(){
 	return true;
 }
 
-std::ostream& operator<<(std::ostream& os, Date a){
+std::ostream& operator<<(std::ostream& os, Date &a){
 	return os << a.get_year() << "/" << a.get_month() << "/" << a.get_day();
+}
+
+std::ostream& operator<<(std::ostream& os, Date *a)
+{
+    os << *a;
+	return os;
 }
 
 bool operator==(Date a, Date b){

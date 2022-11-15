@@ -18,18 +18,18 @@ public:
 
 	Book(std::string name_in, std::string surname_in, std::string title_in);
 
-	Book(std::string name_in, std::string surname_in, std::string title_in, ISBN isbn_in);
+	Book(std::string name_in, std::string surname_in, std::string title_in, ISBN *isbn_in);
 	// Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in) : Book(name_in,  surname_in, title_in, ISBN(isbn_in)) {}
 	Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in);
-	Book(std::string name_in, std::string surname_in, std::string title_in, ISBN isbn_in, Date release_in);
-	Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in, Date release_in);
+	Book(std::string name_in, std::string surname_in, std::string title_in, ISBN *isbn_in, Date *release_in);
+	Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in, Date *release_in);
 
 	Book &operator=(Book a);
 
 	std::string name(void) const { return _name; }
 	std::string surname(void) const { return _surname; }
 	std::string title(void) const { return _title; }
-	ISBN *isbn(void) const { return _isbn; }
+	ISBN isbn(void) const { return *_isbn; }
 	
 	Date *release(void) const { return _release; }
 	bool status(void) const { return _status; }

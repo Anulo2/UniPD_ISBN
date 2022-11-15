@@ -9,21 +9,30 @@ Book::Book(std::string name_in, std::string surname_in) : _name{name_in}, _surna
 Book::Book(std::string name_in, std::string surname_in, std::string title_in) : _name{name_in}, _surname{surname_in}, _title{title_in}{}
 
 
-Book::Book(std::string name_in, std::string surname_in, std::string title_in, ISBN isbn_in):
-_name{name_in}, _surname{surname_in}, _title{title_in}, _isbn{&isbn_in} {
+Book::Book(std::string name_in, std::string surname_in, std::string title_in, ISBN *isbn_in):
+_name{name_in}, _surname{surname_in}, _title{title_in}, _isbn{isbn_in} {
 }
 
-Book::Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in):
-_name{name_in}, _surname{surname_in}, _title{title_in}, _isbn{&ISBN(isbn_in)} {
+Book::Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in){
+    _name = name_in;
+    _surname = surname_in;
+    _title = title_in;
+    ISBN buffer_isbn(isbn_in);
+    _isbn = &buffer_isbn;
 }
 
-Book::Book(std::string name_in, std::string surname_in, std::string title_in, ISBN isbn_in, Date release_in):
-_name{name_in}, _surname{surname_in}, _title{title_in}, _isbn{&isbn_in}, _release{&release_in}{
+
+Book::Book(std::string name_in, std::string surname_in, std::string title_in, ISBN *isbn_in, Date *release_in):
+_name{name_in}, _surname{surname_in}, _title{title_in}, _isbn{isbn_in}, _release{release_in}{
     
 }
-Book::Book(std::string name_in, std::string surname_in, std::string title_in, ISBN isbn_in, Date release_in):
-_name{name_in}, _surname{surname_in}, _title{title_in}, _isbn{&ISBN(isbn_in)}, _release{&release_in}{
-    
+Book::Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in, Date *release_in){
+    _name = name_in;
+    _surname = surname_in;
+    _title = title_in;
+    ISBN buffer_isbn(isbn_in);
+    _isbn = &buffer_isbn;
+    _release = release_in;
 }
 
 Book& Book::operator=(Book a){
@@ -78,7 +87,7 @@ void Book::set_returned(Date returned_in){
 }*/
 
 std::ostream& operator<<(std::ostream& os, Book a){
-    return os << a.title() << "\n" << a.surname() << " " << a.name() << "\n" << a.isbn() << "\n" << a.release();
+    return os << a.title() << " \n" << a.surname() << ((a.surname() == "") ? "": " ") << a.name() << " \n" << a.isbn() << " \n" << a.release();
 
 }
 

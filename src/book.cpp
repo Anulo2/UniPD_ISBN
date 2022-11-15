@@ -1,7 +1,13 @@
 #include "book.h"
 
+Book::Book() : _name{""}, _surname{""}, _title{""}, _isbn{ISBN()}, _release(Date()) {}
+
 Book::Book(std::string name_in, std::string surname_in, std::string title_in, ISBN isbn_in):
 _name{name_in}, _surname{surname_in}, _title{title_in}, _isbn{isbn_in} {
+}
+
+Book::Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in){
+    Book (name_in, surname_in, title_in, ISBN(isbn_in));
 }
 
 Book::Book(std::string name_in, std::string surname_in, std::string title_in, ISBN isbn_in, Date release_in):
@@ -50,7 +56,7 @@ void Book::set_returned(Date returned_in){
 }
 
 
-std::ostream& operator<<(std::ostream& os, Book a){
+/*std::ostream& operator<<(std::ostream& os, Book a){
     if (a.status()){
         return os << a.name() << " " << a.surname() << ", " << a.title() << ", " << a.release() << ", " << a.isbn() <<".\n"
         << "The book is currently not available. It has been lended on this date: " << a.date_of_lend();
@@ -58,6 +64,11 @@ std::ostream& operator<<(std::ostream& os, Book a){
         return os << a.name() << " " << a.surname() << ", " << a.title() << ", " << a.release() << ", " << a.isbn() <<".\n"
         << "The book is currently available. It has been returned on this date: " << a.date_of_return();
     }
+}*/
+
+std::ostream& operator<<(std::ostream& os, Book a){
+    return os << a.title() << "\n" << a.surname() << " " << a.name() << "\n" << a.isbn() << "\n" << a.release();
+
 }
 
 bool operator==(Book a, Book b){

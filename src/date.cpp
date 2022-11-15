@@ -2,17 +2,17 @@
 
 static int length[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-Date::Date(int yy, int mm, int dd) : y (yy), m(mm), d(dd){
+Date::Date(int yy, int mm, int dd) : y {yy}, m{mm}, d{dd}{
 	if (!is_valid()) throw Invalid();
 }
 
-Date::Date(){
+Date::Date() : y{0}, m{0}, d{0}{
 	
 }
 
 bool Date::is_valid(){
 	if (m < 1 || m > 12) return false;
-	if (d > length[m] || d < 1) return false;
+	if (d > length[m] || d < 1) return false; //TODO: fare con conto per anni bisestili.
 	return true;
 }
 

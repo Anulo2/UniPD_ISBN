@@ -9,8 +9,11 @@
 class Book
 {
 public:
+	Book(); 
     Book(std::string name_in, std::string surname_in, std::string title_in, ISBN isbn_in);
+	Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in);
     Book(std::string name_in, std::string surname_in, std::string title_in, ISBN isbn_in, Date release_in);
+	
     
 	Book& operator=(Book a);
 	

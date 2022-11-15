@@ -2,6 +2,8 @@
 #define ISBN_H
 
 #include <ostream>
+#include <vector>
+#include <iostream>
 
 //n-n-n-x, con n intero e x una singola cifra o una lettera (i quattro campi sono separati da un carattere ‘-’).
 
@@ -9,7 +11,9 @@ class ISBN
 {
 public:
 
+	ISBN();
 	ISBN(int field1_in, int field2_in, int field3_in, char field4_in);
+	ISBN(std::string isbn);
 	
 	ISBN& operator=(ISBN a);
 	

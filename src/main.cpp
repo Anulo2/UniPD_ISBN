@@ -1,5 +1,8 @@
 #include <iostream>
 #include "rational.h"
+#include "book.h"
+#include "date.h"
+#include "isbn.h"
 
 using namespace std;
 
@@ -7,6 +10,9 @@ double const_function(const Rational& r);
 
 int main(int argc, char **argv)
 {
+    
+    Book racconti("Matteo", "Manenti", "Racconti da lo torbido medioevo", "233-333-444-c");
+    
     Rational default_rational;
     cout << "Default rational is: " << default_rational << endl;
     

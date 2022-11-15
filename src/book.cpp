@@ -1,17 +1,28 @@
 #include "book.h"
 
-Book::Book() : _name{""}, _surname{""}, _title{""}, _isbn{ISBN()}, _release(Date()) {}
+Book::Book() : _name{""}, _surname{""}, _title{""} {}
+
+Book::Book(std::string name_in) : _name{name_in}, _surname{""}, _title{""}{}
+
+Book::Book(std::string name_in, std::string surname_in) : _name{name_in}, _surname{surname_in}, _title{""}{}
+
+Book::Book(std::string name_in, std::string surname_in, std::string title_in) : _name{name_in}, _surname{surname_in}, _title{title_in}{}
+
 
 Book::Book(std::string name_in, std::string surname_in, std::string title_in, ISBN isbn_in):
-_name{name_in}, _surname{surname_in}, _title{title_in}, _isbn{isbn_in} {
+_name{name_in}, _surname{surname_in}, _title{title_in}, _isbn{&isbn_in} {
 }
 
-Book::Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in){
-    Book (name_in, surname_in, title_in, ISBN(isbn_in));
+Book::Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in):
+_name{name_in}, _surname{surname_in}, _title{title_in}, _isbn{&ISBN(isbn_in)} {
 }
 
 Book::Book(std::string name_in, std::string surname_in, std::string title_in, ISBN isbn_in, Date release_in):
-_name{name_in}, _surname{surname_in}, _title{title_in}, _isbn{isbn_in}, _release{release_in}{
+_name{name_in}, _surname{surname_in}, _title{title_in}, _isbn{&isbn_in}, _release{&release_in}{
+    
+}
+Book::Book(std::string name_in, std::string surname_in, std::string title_in, ISBN isbn_in, Date release_in):
+_name{name_in}, _surname{surname_in}, _title{title_in}, _isbn{&ISBN(isbn_in)}, _release{&release_in}{
     
 }
 
@@ -38,20 +49,20 @@ void Book::set_title(std::string title_in){
 }
 
 void Book::set_isbn(ISBN isbn_in){
-    _isbn = isbn_in;
+    _isbn = &isbn_in;
 }
 
 void Book::set_release(Date release_in){
-    _release = release_in;
+    _release = &release_in;
 }
 
 void Book::set_lended(Date lended_in){
-    _lended = lended_in;
+    _lended = &lended_in;
     _status = true;
 }
 
 void Book::set_returned(Date returned_in){
-    _returned = returned_in;
+    _returned = &returned_in;
     _status = false;
 }
 

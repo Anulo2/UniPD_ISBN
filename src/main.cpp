@@ -11,6 +11,21 @@ double const_function(const Rational& r);
 int main(int argc, char **argv)
 {
     
+    Date date1;
+    Date date2(2022, 11,15);
+
+    cout << date1 << "\n";
+    cout << date2 << "\n";
+
+    ISBN isbn1;
+    ISBN isbn2("233-333-444-c");
+    ISBN isbn3(123, 345, 567, 'c');
+
+    cout << isbn1 << "\n";
+    cout << isbn2 << "\n";
+    cout << isbn3 << "\n";
+    
+
     Book racconti("Matteo", "Manenti", "Racconti da lo torbido medioevo", "233-333-444-c");
     
     Rational default_rational;

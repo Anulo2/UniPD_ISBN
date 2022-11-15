@@ -5,16 +5,11 @@ project(rational)
 include_directories(include)
 
 add_library(${PROJECT_NAME}
-			src/rational.cpp)
-			
-add_library(book
-			src/book.cpp)
-
-add_library(date
-			src/date.cpp)
-
-add_library(isbn
+			src/rational.cpp
+			src/book.cpp
+			src/date.cpp
 			src/isbn.cpp)
+
 
 add_executable(main src/main.cpp)
 

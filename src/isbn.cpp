@@ -1,7 +1,10 @@
 #include "isbn.h"
 
-ISBN::ISBN(){
-    
+ISBN::ISBN(){ //ha piu senso tutti a zero secondo me e comunque non come puntato
+    field1 = nullptr;
+    field2 = nullptr;
+    field3 = nullptr;
+    field4 = nullptr;
 }
 
 ISBN::ISBN(int field1_in, int field2_in, int field3_in, char field4_in): field1{field1_in}, field2{field2_in}, field3{field3_in}, field4{field4_in}{
@@ -21,13 +24,13 @@ ISBN::ISBN(std::string isbn){
         start = end + 1;
         end = isbn.find("-", start);
     }
-    //std::cout << isbn.substr(start, end - start);
+
     fields.push_back(isbn.substr(start, end - start));
     
-    for (auto i = fields.begin(); i != fields.end(); ++i)
-        std::cout << *i << " ";
-        
-    ISBN(std::stoi(fields[0]), std::stoi(fields[1]), std::stoi(fields[2]), fields[3][0]);
+    field1 =std::stoi(fields[0]);
+    field2 = std::stoi(fields[1]);
+    field3 = std::stoi(fields[2]);
+    field4 = fields[3][0];
     
 }
 

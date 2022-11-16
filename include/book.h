@@ -23,6 +23,8 @@ public:
 	Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in);
 	Book(std::string name_in, std::string surname_in, std::string title_in, ISBN *isbn_in, Date *release_in);
 	Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in, Date *release_in);
+	Book(std::string name_in, std::string surname_in, std::string title_in, ISBN *isbn_in, std::string release_in);
+	Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in, std::string release_in);
 
 	Book &operator=(Book a);
 
@@ -33,7 +35,7 @@ public:
 	ISBN *isbn(void) const { return _isbn; }
 	
 	Date *release(void) const { return _release; }
-	bool status(void) const { return _status; }
+	bool available(void) const { return _available; }
 	Date *date_of_lend(void) { return _lended; }
 	Date *date_of_return(void) { return _returned; }
 
@@ -44,6 +46,8 @@ public:
 	void set_release(Date release_in);
 	void set_lended(Date lended_in);
 	void set_returned(Date returned_in);
+	
+	class NotAvailable {};
 
 private:
 	ISBN *_isbn = nullptr;
@@ -51,7 +55,7 @@ private:
 	std::string _name;
 	std::string _surname;
 	Date *_release = nullptr; // Data di copyright
-	bool _status;
+	bool _available = true;
 
 	Date *_lended = nullptr;
 	Date *_returned = nullptr;

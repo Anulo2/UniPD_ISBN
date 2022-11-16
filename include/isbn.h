@@ -3,7 +3,6 @@
 
 #include <ostream>
 #include <vector>
-#include <iostream>
 
 //n-n-n-x, con n intero e x una singola cifra o una lettera (i quattro campi sono separati da un carattere ‘-’).
 

@@ -3,4 +3,4 @@ cd build
 cmake .. 
 cmake --build .  
 make 
-./main
+bash -c './main && cd ..'

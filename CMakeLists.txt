@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 2.84)
 set(CMAKE_CXX_STANDARD 11)
-project(rational)
+project(book)
 
 include_directories(include)
 
 add_library(${PROJECT_NAME}
-			src/rational.cpp
 			src/book.cpp
 			src/date.cpp
 			src/isbn.cpp)

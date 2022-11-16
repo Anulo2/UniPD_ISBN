@@ -3,13 +3,14 @@
 
 
 #include <ostream>
+#include <vector>
 
-#include <iostream>
 
 class Date {
 public:
 	
 	Date (int y, int m, int d); // check e inizializza
+	Date (std::string date);
 	
 	int get_day(void) {return d;}
 	int get_month(void) {return m;}
@@ -20,6 +21,8 @@ public:
 private:
 	int y, m, d;
 	bool is_valid(void); // ritorna true se la data è valida
+	bool is_leap(void);
+	
 	
 };
 
@@ -27,6 +30,5 @@ std::ostream& operator<<(std::ostream& os, Date &a);
 std::ostream& operator<<(std::ostream& os, Date *a);
 bool operator==(Date a, Date b);
 
-bool is_leap(int year);
 
 #endif // DATE_H

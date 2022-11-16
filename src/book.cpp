@@ -33,6 +33,22 @@ Book::Book(std::string name_in, std::string surname_in, std::string title_in, st
     _release = release_in;
 }
 
+Book::Book(std::string name_in, std::string surname_in, std::string title_in, ISBN *isbn_in, std::string release_in){
+    _name = name_in;
+    _surname = surname_in;
+    _title = title_in;
+    _isbn = isbn_in;
+    _release = new Date(release_in);   
+}
+
+Book::Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in, std::string release_in){
+    _name = name_in;
+    _surname = surname_in;
+    _title = title_in;
+    _isbn = new ISBN(isbn_in);
+    _release = new Date(release_in);
+}
+
 Book& Book::operator=(Book a){
     _name = a._name;
     _surname = a._surname;
@@ -65,12 +81,12 @@ void Book::set_release(Date release_in){
 
 void Book::set_lended(Date lended_in){
     _lended = &lended_in;
-    _status = true;
+    _available = true;
 }
 
 void Book::set_returned(Date returned_in){
     _returned = &returned_in;
-    _status = false;
+    _available = false;
 }
 
 

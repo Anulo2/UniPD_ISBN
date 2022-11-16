@@ -17,8 +17,7 @@ Book::Book(std::string name_in, std::string surname_in, std::string title_in, st
     _name = name_in;
     _surname = surname_in;
     _title = title_in;
-    ISBN buffer_isbn(isbn_in);
-    _isbn = &buffer_isbn;
+    _isbn = new ISBN(isbn_in);
 }
 
 
@@ -30,8 +29,7 @@ Book::Book(std::string name_in, std::string surname_in, std::string title_in, st
     _name = name_in;
     _surname = surname_in;
     _title = title_in;
-    ISBN buffer_isbn(isbn_in);
-    _isbn = &buffer_isbn;
+    _isbn = new ISBN(isbn_in);
     _release = release_in;
 }
 

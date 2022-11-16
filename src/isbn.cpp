@@ -19,9 +19,6 @@ ISBN::ISBN(std::string isbn){
     fields.push_back(isbn.substr(start, end - start));
     
     field1 = std::stoi(fields[0]);
-    std::cout << std::stoi(fields[0]) << "\n";
-    std::cout << std::stoi(fields[1]) << "\n";
-    std::cout << std::stoi(fields[2]) << "\n";
     field2 = std::stoi(fields[1]);
     field3 = std::stoi(fields[2]);
     field4 = fields[3][0];

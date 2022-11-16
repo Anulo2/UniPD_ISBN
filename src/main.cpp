@@ -15,16 +15,16 @@ int main(int argc, char **argv)
 
     Date date1(2022, 11, 15);
     Date date2("2022/11/15");
-
+    /*
     cout << date1 << "\n";
     cout << date2 << "\n";
-
+    */
     ISBN isbn1("222-333-444-c");
     ISBN isbn2(222, 333, 444, 'c');
-
+    /*
     cout << isbn1 << "\n";
     cout << isbn2 << "\n";
-
+    */
     Book book0;
     Book book1("Matteo");
     Book book2("Matteo", "Manenti");
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
     Book book8("Matteo", "Manenti", "Racconti da lo torbido medioevo", &isbn1, "2022/11/15");
     Book book9("Matteo", "Manenti", "Racconti da lo torbido medioevo", "222-333-444-c", "2022/11/15");
     Book book10("George", "Orwell", "1984");
-
+    /*
     cout << book0 << "\n";
     cout << book1 << "\n";
     cout << book2 << "\n";
@@ -47,15 +47,62 @@ int main(int argc, char **argv)
     cout << book7 << "\n";
     cout << book8 << "\n";
     cout << book9 << "\n";
+    */
 
-    vector<Book> library = {book9};
-    vector<Book> rented_books = {book10};
+   Book racconti_da_lo_torbido_medioevo("Matteo", "Manenti", "Racconti da lo torbido medioevo", "222-333-444-c", "2022/11/15");
+   Book millenovecentoottantaquattro("George", "Orwell", "1984");
+   Book guida_galattica_per_gli_autostoppisti("Douglas", "Adams", "Guida galattica per gli autostoppisti", "88-41353-0", "1980/10/10"); //Non ho trovato ne mese ne giorno
+   Book the_art_of_computer_programming("Donald", "Knuth", "The Art of Computer Programming", "0-75104-3", "1968/02/29"); //ho trovato solo il mese
+
+    vector<Book> library = {racconti_da_lo_torbido_medioevo, guida_galattica_per_gli_autostoppisti};
+    vector<Book> rented_books = {millenovecentoottantaquattro,the_art_of_computer_programming};
+
+    cout << R"(
+   ____________________________________________________
+  |____________________________________________________|
+  | __     __   ____   ___ ||  ____    ____     _  __  |
+  ||  |__ |--|_| || |_|   |||_|**|*|__|+|+||___| ||  | |
+  ||==|^^||--| |=||=| |=*=||| |~~|~|  |=|=|| | |~||==| |
+  ||  |##||  | | || | |JRO|||-|  | |==|+|+||-|-|~||__| |
+  ||__|__||__|_|_||_|_|___|||_|__|_|__|_|_||_|_|_||__|_|
+  ||_______________________||__________________________|
+  | _____________________  ||      __   __  _  __    _ |
+  ||=|=|=|=|=|=|=|=|=|=|=| __..\/ |  |_|  ||#||==|  / /|
+  || | | | | | | | | | | |/\ \  \\|++|=|  || ||==| / / |
+  ||_|_|_|_|_|_|_|_|_|_|_/_/\_.___\__|_|__||_||__|/_/__|
+  |____________________ /\~()/()~//\ __________________|
+  | __   __    _  _     \_  (_ .  _/ _    ___     _____|
+  ||~~|_|..|__| || |_ _   \ //\\ /  |=|__|~|~|___| | | |
+  ||--|+|^^|==|1||2| | |__/\ __ /\__| |==|x|x|+|+|=|=|=|
+  ||__|_|__|__|_||_|_| /  \ \  / /  \_|__|_|_|_|_|_|_|_|
+  |_________________ _/    \/\/\/    \_ _______________|
+  | _____   _   __  |/      \../      \|  __   __   ___|
+  ||_____|_| |_|##|_||   |   \/ __|   ||_|==|_|++|_|-|||
+  ||______||=|#|--| |\   \   o    /   /| |  |~|  | | |||
+  ||______||_|_|__|_|_\   \  o   /   /_|_|__|_|__|_|_|||
+  |_________ __________\___\____/___/___________ ______|
+  |__    _  /    ________     ______           /| _ _ _|
+  |\ \  |=|/   //    /| //   /  /  / |        / ||%|%|%|
+  | \/\ |*/  .//____//.//   /__/__/ (_)      /  ||=|=|=|
+__|  \/\|/   /(____|/ //                    /  /||~|~|~|__
+  |___\_/   /________//   ________         /  / ||_|_|_|
+  |___ /   (|________/   |\_______\       /  /| |______|
+      /                  \|________)     /  / | |
+
+)" << '\n';
+cout << R"(
+ ____  ____  _  _  _  _  ____  _  _  __  __  ____  _____ 
+(  _ \( ___)( \( )( \/ )( ___)( \( )(  )(  )(_  _)(  _  )
+ ) _ < )__)  )  (  \  /  )__)  )  (  )(__)(   )(   )(_)( 
+(____/(____)(_)\_)  \/  (____)(_)\_)(______) (__) (_____)
+)" << '\n';
+
 
     bool looping = true;
 
     while (looping)
     {
-        cout << "Cosa vuoi fare?\n";
+        cout << "\nCosa vuoi fare?\n";
         cout << "1) Aggiungere un libro alla biblioteca\n";
         cout << "2) Prendere in prestito un libro\n";
         cout << "3) Depositare un libro preso in presito\n";
@@ -169,11 +216,68 @@ int main(int argc, char **argv)
                 }
                 break;
             }
-
+            case 4:
+            {
+                if (library.size() == 0){
+                    cout << "Non ci sono libri! \n";
+                    break;
+                }
+                for (int i = 0; i < library.size(); i++) {
+                    cout << "    " << green << "_______\n";
+                    cout <<"   /      /,\n";
+                    cout << "  /";
+                    int number = i+1;
+                    int digits = 0; while (number != 0) { number /= 10; digits++; }
+                    int first_space =(6-digits)/2;
+                    cout << string(first_space, ' ');
+                    cout << Upurple << i+1 << green;
+                    cout << string(6-first_space-digits, ' '); 
+                    cout << "//\n";
+                    cout << " /______//\n";
+                    cout << "(______(/\n\n"<<normal;
+         
+                    //cout << i+1 << "\n";
+                    cout << library.at(i) << '\n';
+                }
+                break;
+            }
+            case 5:
+            {
+                if (rented_books.size() == 0){
+                    cout << "Non hai libri! \n";
+                    break;
+                }
+                for (int i = 0; i < rented_books.size(); i++) {
+                    cout << "    " << green << "_______\n";
+                    cout <<"   /      /,\n";
+                    cout << "  /";
+                    int number = i+1;
+                    int digits = 0; while (number != 0) { number /= 10; digits++; }
+                    int first_space =(6-digits)/2;
+                    cout << string(first_space, ' ');
+                    cout << Upurple << i+1 << green;
+                    cout << string(6-first_space-digits, ' '); 
+                    cout << "//\n";
+                    cout << " /______//\n";
+                    cout << "(______(/\n\n"<<normal;
+         
+                    //cout << i+1 << "\n";
+                    cout << rented_books.at(i) << '\n';
+                }
+                break;
+            }
+            case 6:
+            {
+                looping = false;
+                break;
+            }
             default:
             {
                 break;
             }
         }
     }
+
+    cout << "Arrivederci!\n";
+    return 0;
 }

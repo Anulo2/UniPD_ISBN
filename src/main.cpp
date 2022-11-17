@@ -7,8 +7,9 @@
 
 using namespace std;
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv){
+
+
     char normal[]={0x1b,'[','0',';','3','9','m',0};
     char green[]={0x1b,'[','0',';','3', '2','m',0};
     char Upurple[]={0x1b,'[','4',';','3','5','m',0};
@@ -100,8 +101,8 @@ cout << R"(
 
     bool looping = true;
 
-    while (looping)
-    {
+    while (looping){
+
         cout << "\nCosa vuoi fare?\n";
         cout << "1) Aggiungere un libro alla biblioteca\n";
         cout << "2) Prendere in prestito un libro\n";
@@ -114,10 +115,9 @@ cout << R"(
         cin >> answer;
         
 
-        switch (answer)
-        {
-            case 1:
-            {
+        switch (answer){
+            case 1:{
+
                 cout << "Inserisci il titolo del libro (premi invio se non presente): ";
                 string title;
                 getline(cin>>ws, title);
@@ -140,11 +140,9 @@ cout << R"(
                 book_buffer.set_surname(surname);
                 book_buffer.set_title(title);
 
-                if (isbn != "")
-                {
+                if (isbn != ""){
                     book_buffer.set_isbn(*new ISBN(isbn));
-                }
-                {
+                }else {
                     book_buffer.set_release(*new Date(release));
                 }
 
@@ -152,12 +150,13 @@ cout << R"(
 
                 break;
             }
-            case 2:
-            {   
+            case 2:{
+
                 if (library.size() == 0){
                     cout << "Non ci sono libri! \n";
                     break;
                 }
+
                 for (int i = 0; i < library.size(); i++) {
                     cout << "    " << green << "_______\n";
                     cout <<"   /      /,\n";
@@ -175,6 +174,7 @@ cout << R"(
                     //cout << i+1 << "\n";
                     cout << library.at(i) << '\n';
                 }
+
                 cout << "\nInserisci il numero corrispondente al libro che vuoi prendere (inserisci 0 per annullare): ";
                 int selection;
                 cin>> selection;
@@ -182,14 +182,16 @@ cout << R"(
                     rented_books.push_back(library.at(selection-1));
                     library.erase(library.begin()+selection+1);
                 }
+
                 break;
             }
-            case 3:
-            {
+            case 3:{
+
                 if (rented_books.size() == 0){
                     cout << "Non hai libri! \n";
                     break;
                 }
+
                 for (int i = 0; i < rented_books.size(); i++) {
                     cout << "    " << green << "_______\n";
                     cout <<"   /      /,\n";
@@ -207,21 +209,25 @@ cout << R"(
                     //cout << i+1 << "\n";
                     cout << rented_books.at(i) << '\n';
                 }
+
                 cout << "\nInserisci il numero corrispondente al libro che vuoi prendere (inserisci 0 per annullare): ";
                 int selection;
                 cin>> selection;
+
                 if (selection != 0){
                     library.push_back(rented_books.at(selection-1));
                     rented_books.erase(rented_books.begin()+selection+1);
                 }
+
                 break;
             }
-            case 4:
-            {
+            case 4:{
+
                 if (library.size() == 0){
                     cout << "Non ci sono libri! \n";
                     break;
                 }
+
                 for (int i = 0; i < library.size(); i++) {
                     cout << "    " << green << "_______\n";
                     cout <<"   /      /,\n";
@@ -239,14 +245,16 @@ cout << R"(
                     //cout << i+1 << "\n";
                     cout << library.at(i) << '\n';
                 }
+
                 break;
             }
-            case 5:
-            {
+            case 5:{
+
                 if (rented_books.size() == 0){
                     cout << "Non hai libri! \n";
                     break;
                 }
+                
                 for (int i = 0; i < rented_books.size(); i++) {
                     cout << "    " << green << "_______\n";
                     cout <<"   /      /,\n";
@@ -266,13 +274,13 @@ cout << R"(
                 }
                 break;
             }
-            case 6:
-            {
+            
+            case 6:{
                 looping = false;
                 break;
             }
-            default:
-            {
+
+            default:{
                 break;
             }
         }

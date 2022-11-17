@@ -1,6 +1,8 @@
 #include "date.h"
 
+//Array che definisce la lunghezza di ogni mese
 static int length[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
 
 Date::Date(int yy, int mm, int dd) : y {yy}, m{mm}, d{dd}{
 	if (!is_valid()) throw Invalid();
@@ -24,7 +26,7 @@ Date::Date(std::string date){
     if (!is_valid()) throw Invalid();
 }
 
-
+//Controllo della validità della data su mese e giorno
 bool Date::is_valid(){
 	if (m < 1 || m > 12) return false;
 	bool leap = is_leap();
@@ -32,6 +34,7 @@ bool Date::is_valid(){
 	return true;
 }
 
+//Controllo dell'anno bisestile
 bool Date::is_leap(){
 	if (y % 400 == 0)
         return true;
@@ -44,16 +47,19 @@ bool Date::is_leap(){
     return false;
 }
 
+
+//Output nello stream formattato
 std::ostream& operator<<(std::ostream& os, Date &a){
 	return os << a.get_year() << "/" << a.get_month() << "/" << a.get_day();
 }
 
-std::ostream& operator<<(std::ostream& os, Date *a)
-{
+//Output nello stream
+std::ostream& operator<<(std::ostream& os, Date *a){
     os << *a;
 	return os;
 }
 
+//Operatore di uguaglianza
 bool operator==(Date a, Date b){
 	return (a.get_year() == b.get_year()) && (a.get_month() == b.get_month())  && (a.get_day() == b.get_day());
 }

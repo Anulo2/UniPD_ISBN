@@ -1,5 +1,7 @@
 #include "book.h"
 
+/***Costruttori***/
+
 Book::Book() : _name{""}, _surname{""}, _title{""} {}
 
 Book::Book(std::string name_in) : _name{name_in}, _surname{""}, _title{""}{}
@@ -11,6 +13,7 @@ Book::Book(std::string name_in, std::string surname_in, std::string title_in) : 
 
 Book::Book(std::string name_in, std::string surname_in, std::string title_in, ISBN *isbn_in):
 _name{name_in}, _surname{surname_in}, _title{title_in}, _isbn{isbn_in} {
+
 }
 
 Book::Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in){
@@ -20,11 +23,11 @@ Book::Book(std::string name_in, std::string surname_in, std::string title_in, st
     _isbn = new ISBN(isbn_in);
 }
 
-
 Book::Book(std::string name_in, std::string surname_in, std::string title_in, ISBN *isbn_in, Date *release_in):
 _name{name_in}, _surname{surname_in}, _title{title_in}, _isbn{isbn_in}, _release{release_in}{
-    
+
 }
+
 Book::Book(std::string name_in, std::string surname_in, std::string title_in, std::string isbn_in, Date *release_in){
     _name = name_in;
     _surname = surname_in;
@@ -49,6 +52,7 @@ Book::Book(std::string name_in, std::string surname_in, std::string title_in, st
     _release = new Date(release_in);
 }
 
+//Operatore di uguaglianza
 Book& Book::operator=(Book a){
     _name = a._name;
     _surname = a._surname;
@@ -59,6 +63,7 @@ Book& Book::operator=(Book a){
     return *this;
 }
 
+/***Funzioni Setter***/
 void Book::set_name(std::string name_in){
     _name = name_in;
 }
@@ -99,6 +104,7 @@ void Book::set_returned(Date returned_in){
         << "The book is currently available. It has been returned on this date: " << a.date_of_return();
     }
 }*/
+
 
 std::ostream& operator<<(std::ostream& os, Book a){
     os << ((a.title() == "") ? "Titolo non presente" : a.title());

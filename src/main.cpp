@@ -402,7 +402,7 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
                 cout << "Inserisci il codice ISBN del libro (premi invio se non presente): ";
                 string isbn;
                 getline(cin, isbn);
-                cout << "Inserisci la data di copyright del libro (premi invio se non presente): ";
+                cout << "Inserisci la data di copyright del libro nel formato anno/mese/giorno. Puoi anche inserire solo l'anno oppure anno/mese (premi invio se non presente): ";
                 string release;
                 getline(cin, release);
 

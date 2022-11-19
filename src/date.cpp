@@ -3,6 +3,13 @@
 //Array che definisce la lunghezza di ogni mese
 static int length[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
+Date::Date(int yy) : y{yy}{
+    if (!is_valid()) throw Invalid();
+}
+
+Date::Date(int yy, int mm) : y{yy}, m{mm}{
+    if (!is_valid()) throw Invalid();
+}
 
 Date::Date(int yy, int mm, int dd) : y {yy}, m{mm}, d{dd}{
 	if (!is_valid()) throw Invalid();
@@ -21,16 +28,20 @@ Date::Date(std::string date){
     fields.push_back(date.substr(start, end - start));
     
     y = std::stoi(fields[0]);
+    if (fields.size() > 1){
     m = std::stoi(fields[1]);
+    if (fields.size() > 2){
     d = std::stoi(fields[2]);
+    }}
     if (!is_valid()) throw Invalid();
 }
 
 //Controllo della validità della data su mese e giorno
 bool Date::is_valid(){
-	if (m < 1 || m > 12) return false;
+    if (y >= 2023) return false;
+	if (m != NULL && m < 1 || m > 12) return false;
 	bool leap = is_leap();
-	if (d > ((m == 2) ? (leap ? 29 : 28) : length[m])|| d < 1) return false; //TODO: fare con conto per anni bisestili.
+	if (d != NULL && d > ((m == 2) ? (leap ? 29 : 28) : length[m])|| d < 1) return false;
 	return true;
 }
 

@@ -9,6 +9,8 @@ public:
 
 	//Costruttori con controllo e inizializzazione della data
 	Date (int y, int m, int d);
+	Date (int y, int m);
+	Date (int y);
 	Date (std::string date);
 	
 	//Funzioni getter
@@ -20,7 +22,7 @@ public:
 	class Invalid {};
 	
 private:
-	int y, m, d; 	//anno, mese, giorno
+	int y, m, d = NULL; 	//anno, mese, giorno
 
 	//Verifica se la data inserita è valida
 	bool is_valid(void);

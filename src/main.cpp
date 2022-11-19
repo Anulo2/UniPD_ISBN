@@ -1,62 +1,315 @@
+#include <iomanip>
 #include <iostream>
 #include <vector>
-#include <iomanip>
+
 #include "book.h"
 #include "date.h"
 #include "isbn.h"
 
 using namespace std;
 
-int main(int argc, char **argv){
+int main(int argc, char **argv) {
+    char normal[] = {0x1b, '[', '0', ';', '3', '9', 'm', 0};
+    char green[] = {0x1b, '[', '0', ';', '3', '2', 'm', 0};
+    char Upurple[] = {0x1b, '[', '4', ';', '3', '5', 'm', 0};
 
+    bool valid = true;
 
-    char normal[]={0x1b,'[','0',';','3','9','m',0};
-    char green[]={0x1b,'[','0',';','3', '2','m',0};
-    char Upurple[]={0x1b,'[','4',';','3','5','m',0};
-
-    Date date1(2022, 11, 15);
-    Date date2("2022/11/15");
     /*
-    cout << date1 << "\n";
-    cout << date2 << "\n";
-    */
-    ISBN isbn1("222-333-444-c");
-    ISBN isbn2(222, 333, 444, 'c');
-    /*
-    cout << isbn1 << "\n";
-    cout << isbn2 << "\n";
-    */
-    Book book0;
-    Book book1("Matteo");
-    Book book2("Matteo", "Manenti");
-    Book book3("Matteo", "Manenti", "Racconti da lo torbido medioevo");
-    Book book4("Matteo", "Manenti", "Racconti da lo torbido medioevo", &isbn1);
-    Book book5("Matteo", "Manenti", "Racconti da lo torbido medioevo", "222-333-444-c");
-    Book book6("Matteo", "Manenti", "Racconti da lo torbido medioevo", &isbn1, &date1);
-    Book book7("Matteo", "Manenti", "Racconti da lo torbido medioevo", "222-333-444-c", &date1);
-    Book book8("Matteo", "Manenti", "Racconti da lo torbido medioevo", &isbn1, "2022/11/15");
-    Book book9("Matteo", "Manenti", "Racconti da lo torbido medioevo", "222-333-444-c", "2022/11/15");
-    Book book10("George", "Orwell", "1984");
-    /*
-    cout << book0 << "\n";
-    cout << book1 << "\n";
-    cout << book2 << "\n";
-    cout << book3 << "\n";
-    cout << book4 << "\n";
-    cout << book5 << "\n";
-    cout << book6 << "\n";
-    cout << book7 << "\n";
-    cout << book8 << "\n";
-    cout << book9 << "\n";
+    ##################################################
+    #                      TEST DATE                 #
+    ##################################################
     */
 
-   Book racconti_da_lo_torbido_medioevo("Matteo", "Manenti", "Racconti da lo torbido medioevo", "222-333-444-c", "2022/11/15");
-   Book millenovecentoottantaquattro("George", "Orwell", "1984");
-   Book guida_galattica_per_gli_autostoppisti("Douglas", "Adams", "Guida galattica per gli autostoppisti", "88-41353-0", "1980/10/10"); //Non ho trovato ne mese ne giorno
-   Book the_art_of_computer_programming("Donald", "Knuth", "The Art of Computer Programming", "0-75104-3", "1968/02/29"); //ho trovato solo il mese
+    try {
+        Date date0{2022};
+        Date date1("2022");
+        Date date2(2022, 11);
+        Date date3("2022/11");
+        Date date4(2022, 11, 19);
+        Date date5("2022/11/19");
 
-    vector<Book> library = {racconti_da_lo_torbido_medioevo, guida_galattica_per_gli_autostoppisti};
-    vector<Book> rented_books = {millenovecentoottantaquattro,the_art_of_computer_programming};
+        try {
+            Date date6(2023);
+            valid = false;
+        } catch (Date::Invalid e) {
+        }
+
+        try {
+            Date date7("2023");
+            valid = false;
+        } catch (Date::Invalid e) {
+        }
+
+        try {
+            Date date8(2022, 13);
+            valid = false;
+        } catch (Date::Invalid e) {
+        }
+
+        try {
+            Date date9("2022/13");
+            valid = false;
+        } catch (Date::Invalid e) {
+        }
+
+        try {
+            Date date10(2022, 02, 29);
+            valid = false;
+        } catch (Date::Invalid e) {
+        }
+
+        try {
+            Date date11("2022/02/29");
+            valid = false;
+        } catch (Date::Invalid e) {
+        }
+
+        if (!valid) {
+            throw Date::Invalid();
+        }
+
+        cout << "[✅] Test Costruttori Date Completato\n";
+    } catch (Date::Invalid e) {
+        cout << "[❌] Test Costruttori Date Fallito\n";
+    }
+
+    valid = true;
+
+    Date date12(2022, 11, 19);
+
+    if (date12.get_day() != 19) {
+        valid = false;
+    }
+    if (date12.get_month() != 11) {
+        valid = false;
+    }
+    if (date12.get_year() != 2022) {
+        valid = false;
+    }
+
+    Date date13(2022);
+    date13 = date12;
+
+    if (!(date12 == date13)) {
+        valid = false;
+    }
+
+    if (valid) {
+        cout << "[✅] Test Metodi Date Completato\n";
+    } else {
+        cout << "[❌] Test Metodi Date Fallito\n";
+    }
+
+    /*
+    ##################################################
+    #                    TEST ISBN                   #
+    ##################################################
+    */
+
+    valid = true;
+
+    try {
+        ISBN isbn0{123, 456, 789, 'a'};
+        ISBN isbn1("123-456-789-a");
+
+        try {
+            ISBN isbn2(123, 456, 789, '?');
+            valid = false;
+        } catch (ISBN::InvalidIdentifier e) {
+        }
+
+        try {
+            ISBN isbn3("a-456-789-a");
+            valid = false;
+        } catch (ISBN::InvalidIdentifier e) {
+        }
+
+        try {
+            ISBN isbn4("123-a-789-a");
+            valid = false;
+        } catch (ISBN::InvalidIdentifier e) {
+        }
+
+        try {
+            ISBN isbn5("123-456-a-a");
+            valid = false;
+        } catch (ISBN::InvalidIdentifier e) {
+        }
+
+        try {
+            ISBN isbn6("123-456-789-?");
+            valid = false;
+        } catch (ISBN::InvalidIdentifier e) {
+        }
+
+        if (!valid) {
+            throw ISBN::InvalidIdentifier();
+        }
+
+        cout << "[✅] Test Costruttori ISBN Completato\n";
+    } catch (ISBN::InvalidIdentifier e) {
+        cout << "[❌] Test Costruttori ISBN Fallito\n";
+    }
+
+    valid = true;
+
+    ISBN isbn7(123, 456, 789, 'a');
+
+    if (isbn7.get_field1() != 123) {
+        valid = false;
+    }
+    if (isbn7.get_field2() != 456) {
+        valid = false;
+    }
+    if (isbn7.get_field3() != 789) {
+        valid = false;
+    }
+    if (isbn7.get_field4() != 'a') {
+        valid = false;
+    }
+
+    ISBN isbn8(987, 654, 321, 'z');
+    isbn8 = isbn7;
+
+    if (!(isbn7 == isbn8)) {
+        valid = false;
+    }
+
+    if (valid) {
+        cout << "[✅] Test Metodi ISBN Completato\n";
+    } else {
+        cout << "[❌] Test Metodi ISBN Fallito\n";
+    }
+
+    /*
+    ##################################################
+    #                    TEST BOOK                   #
+    ##################################################
+    */
+
+    valid = true;
+
+    try {
+        Book book0;
+        Book book1("Matteo");
+        Book book2("Matteo", "Manenti");
+        Book book3("Matteo", "Manenti", "Racconti da lo torbido medioevo");
+        Book book4("Matteo", "Manenti", "Racconti da lo torbido medioevo", new ISBN(123, 456, 789, 'a'));
+        Book book5("Matteo", "Manenti", "Racconti da lo torbido medioevo", "123-456-789-a");
+        Book book6("Matteo", "Manenti", "Racconti da lo torbido medioevo", new ISBN(123, 456, 789, 'a'), new Date(2022, 11, 19));
+        Book book7("Matteo", "Manenti", "Racconti da lo torbido medioevo", "123-456-789-a", new Date(2022, 11, 19));
+        Book book8("Matteo", "Manenti", "Racconti da lo torbido medioevo", new ISBN(123, 456, 789, 'a'), "2022/11/19");
+        Book book9("Matteo", "Manenti", "Racconti da lo torbido medioevo", "123-456-789-a", "2022/11/19");
+
+        try {
+            Book book10("Matteo", "Manenti", "Racconti da lo torbido medioevo", "123-456-789-?");
+            valid = false;
+        } catch (Book::InvalidBook e) {
+        }
+
+        try {
+            Book book11("Matteo", "Manenti", "Racconti da lo torbido medioevo", "123-456-789-?", new Date(2022, 11, 19));
+            valid = false;
+        } catch (Book::InvalidBook e) {
+        }
+
+        try {
+            Book book12("Matteo", "Manenti", "Racconti da lo torbido medioevo", new ISBN(123, 456, 789, 'a'), "2022/02/29");
+            valid = false;
+        } catch (Book::InvalidBook e) {
+        }
+
+        try {
+            Book book13("Matteo", "Manenti", "Racconti da lo torbido medioevo", "123-456-789-?", "2022/02/29");
+            valid = false;
+        } catch (Book::InvalidBook e) {
+        }
+
+        if (!valid) {
+            throw Book::InvalidBook();
+        }
+
+        cout << "[✅] Test Costruttori Book Completato\n";
+    } catch (Book::InvalidBook e) {
+        cout << "[❌] Test Costruttori Book Fallito\n";
+    }
+
+    valid = true;
+
+    Book book14("Matteo", "Manenti", "Racconti da lo torbido medioevo", new ISBN(123, 456, 789, 'a'), new Date(2022, 11, 19));
+
+    if (book14.name() != "Matteo") {
+        valid = false;
+    }
+    if (book14.surname() != "Manenti") {
+        valid = false;
+    }
+    if (book14.title() != "Racconti da lo torbido medioevo") {
+        valid = false;
+    }
+    if (!(*book14.isbn() == ISBN(123, 456, 789, 'a'))) {
+        valid = false;
+    }
+    if (!(*book14.release() == Date(2022, 11, 19))) {
+        valid = false;
+    }
+    if (book14.available() == false) {
+        valid = false;
+    }
+
+    Book book15("Donald", "Knuth", "The Art of Computer Programming");
+
+    book15.set_name("Donale");
+    book15.set_surname("Knuth");
+    book15.set_title("The Art of Computer Programming");
+
+    try {
+        ISBN isbn = *book15.isbn();
+        valid = false;
+    } catch (Book::FieldNotPresent e) {
+    }
+    try {
+        Date date = *book15.release();
+        valid = false;
+    } catch (Book::FieldNotPresent e) {
+    }
+    book15.set_isbn(new ISBN(123, 456, 789, 'a'));
+    book15.set_release(new Date(2022, 11, 19));
+    book15.set_isbn("123-456-789-a");
+    book15.set_release("2022/11/19");
+    book15.set_availabe(false);
+
+    try {
+        book15.set_isbn("123-456-789-?");
+        valid = false;
+    } catch (Book::InvalidBook e) {
+    }
+    try {
+        book15.set_release("2022/02/29");
+        valid = false;
+    } catch (Book::InvalidBook) {
+    }
+
+    book15 = book14;
+
+    if (!(book14 == book15)) {
+        valid = false;
+    }
+
+    if (valid) {
+        cout << "[✅] Test Metodi Book Completato\n";
+    } else {
+        cout << "[❌] Test Metodi Book Fallito\n";
+    }
+
+    Book racconti_da_lo_torbido_medioevo("Matteo", "Manenti", "Racconti da lo torbido medioevo", "222-333-444-c", "2022/11/15");
+    Book millenovecentoottantaquattro("George", "Orwell", "1984");
+    Book guida_galattica_per_gli_autostoppisti("Douglas", "Adams", "Guida galattica per gli autostoppisti", "88-41353-0", "1980/10/10");  // Non ho trovato ne mese ne giorno
+    Book the_art_of_computer_programming("Donald", "Knuth", "The Art of Computer Programming", "0-75104-3", "1968/02/29");                // ho trovato solo il mese
+
+    vector<Book> library = {racconti_da_lo_torbido_medioevo, guida_galattica_per_gli_autostoppisti, millenovecentoottantaquattro, the_art_of_computer_programming};
+    vector<Book> rented_books = {millenovecentoottantaquattro, the_art_of_computer_programming};
 
     cout << R"(
    ____________________________________________________
@@ -84,25 +337,24 @@ int main(int argc, char **argv){
   |_________ __________\___\____/___/___________ ______|
   |__    _  /    ________     ______           /| _ _ _|
   |\ \  |=|/   //    /| //   /  /  / |        / ||%|%|%|
-  | \/\ |*/  .//____//.//   /__/__/ (_)      /  ||=|=|=|
-__|  \/\|/   /(____|/ //                    /  /||~|~|~|__
-  |___\_/   /________//   ________         /  / ||_|_|_|
-  |___ /   (|________/   |\_______\       /  /| |______|
-      /                  \|________)     /  / | |
+  | \/\ |*/.  //____//.//   /__/__/ (_)      /  ||=|=|=|
+        __ |  \/\|
+        / / (____ | /              //                    /  /||~|~|~|__
+             | ___\_ / / ________  //   ________         /  / ||_|_|_|
+             | ___ / (| ________ / |\_______\ / / | | ______ | /                  \| ________) / / | |
 
-)" << '\n';
-cout << R"(
+             ) " << '\n';
+                cout
+            << R"(
  ____  ____  _  _  _  _  ____  _  _  __  __  ____  _____ 
 (  _ \( ___)( \( )( \/ )( ___)( \( )(  )(  )(_  _)(  _  )
  ) _ < )__)  )  (  \  /  )__)  )  (  )(__)(   )(   )(_)( 
 (____/(____)(_)\_)  \/  (____)(_)\_)(______) (__) (_____)
 )" << '\n';
 
-
     bool looping = true;
 
-    while (looping){
-
+    while (looping) {
         cout << "\nCosa vuoi fare?\n";
         cout << "1) Aggiungere un libro alla biblioteca\n";
         cout << "2) Prendere in prestito un libro\n";
@@ -113,14 +365,12 @@ cout << R"(
 
         int answer;
         cin >> answer;
-        
 
-        switch (answer){
-            case 1:{
-
+        switch (answer) {
+            case 1: {
                 cout << "Inserisci il titolo del libro (premi invio se non presente): ";
                 string title;
-                getline(cin>>ws, title);
+                getline(cin >> ws, title);
                 cout << "Inserisci il nome dell'autore (premi invio se non presente): ";
                 string name;
                 getline(cin, name);
@@ -140,147 +390,163 @@ cout << R"(
                 book_buffer.set_surname(surname);
                 book_buffer.set_title(title);
 
-                if (isbn != ""){
-                    book_buffer.set_isbn(*new ISBN(isbn));
-                }else {
-                    book_buffer.set_release(*new Date(release));
+                if (isbn != "") {
+                    book_buffer.set_isbn(new ISBN(isbn));
+                } else {
+                    book_buffer.set_release(new Date(release));
                 }
 
                 library.push_back(book_buffer);
 
                 break;
             }
-            case 2:{
-
-                if (library.size() == 0){
+            case 2: {
+                if (library.size() == 0) {
                     cout << "Non ci sono libri! \n";
                     break;
                 }
 
                 for (int i = 0; i < library.size(); i++) {
                     cout << "    " << green << "_______\n";
-                    cout <<"   /      /,\n";
+                    cout << "   /      /,\n";
                     cout << "  /";
-                    int number = i+1;
-                    int digits = 0; while (number != 0) { number /= 10; digits++; }
-                    int first_space =(6-digits)/2;
+                    int number = i + 1;
+                    int digits = 0;
+                    while (number != 0) {
+                        number /= 10;
+                        digits++;
+                    }
+                    int first_space = (6 - digits) / 2;
                     cout << string(first_space, ' ');
-                    cout << Upurple << i+1 << green;
-                    cout << string(6-first_space-digits, ' '); 
+                    cout << Upurple << i + 1 << green;
+                    cout << string(6 - first_space - digits, ' ');
                     cout << "//\n";
                     cout << " /______//\n";
-                    cout << "(______(/\n\n"<<normal;
-         
-                    //cout << i+1 << "\n";
+                    cout << "(______(/\n\n"
+                         << normal;
+
+                    // cout << i+1 << "\n";
                     cout << library.at(i) << '\n';
                 }
 
                 cout << "\nInserisci il numero corrispondente al libro che vuoi prendere (inserisci 0 per annullare): ";
                 int selection;
-                cin>> selection;
-                if (selection != 0){
-                    rented_books.push_back(library.at(selection-1));
-                    library.erase(library.begin()+selection+1);
+                cin >> selection;
+                if (selection != 0) {
+                    rented_books.push_back(library.at(selection - 1));
+                    library.erase(library.begin() + selection + 1);
                 }
 
                 break;
             }
-            case 3:{
-
-                if (rented_books.size() == 0){
+            case 3: {
+                if (rented_books.size() == 0) {
                     cout << "Non hai libri! \n";
                     break;
                 }
 
                 for (int i = 0; i < rented_books.size(); i++) {
                     cout << "    " << green << "_______\n";
-                    cout <<"   /      /,\n";
+                    cout << "   /      /,\n";
                     cout << "  /";
-                    int number = i+1;
-                    int digits = 0; while (number != 0) { number /= 10; digits++; }
-                    int first_space =(6-digits)/2;
+                    int number = i + 1;
+                    int digits = 0;
+                    while (number != 0) {
+                        number /= 10;
+                        digits++;
+                    }
+                    int first_space = (6 - digits) / 2;
                     cout << string(first_space, ' ');
-                    cout << Upurple << i+1 << green;
-                    cout << string(6-first_space-digits, ' '); 
+                    cout << Upurple << i + 1 << green;
+                    cout << string(6 - first_space - digits, ' ');
                     cout << "//\n";
                     cout << " /______//\n";
-                    cout << "(______(/\n\n"<<normal;
-         
-                    //cout << i+1 << "\n";
+                    cout << "(______(/\n\n"
+                         << normal;
+
+                    // cout << i+1 << "\n";
                     cout << rented_books.at(i) << '\n';
                 }
 
                 cout << "\nInserisci il numero corrispondente al libro che vuoi prendere (inserisci 0 per annullare): ";
                 int selection;
-                cin>> selection;
+                cin >> selection;
 
-                if (selection != 0){
-                    library.push_back(rented_books.at(selection-1));
-                    rented_books.erase(rented_books.begin()+selection+1);
+                if (selection != 0) {
+                    library.push_back(rented_books.at(selection - 1));
+                    rented_books.erase(rented_books.begin() + selection + 1);
                 }
 
                 break;
             }
-            case 4:{
-
-                if (library.size() == 0){
+            case 4: {
+                if (library.size() == 0) {
                     cout << "Non ci sono libri! \n";
                     break;
                 }
 
                 for (int i = 0; i < library.size(); i++) {
                     cout << "    " << green << "_______\n";
-                    cout <<"   /      /,\n";
+                    cout << "   /      /,\n";
                     cout << "  /";
-                    int number = i+1;
-                    int digits = 0; while (number != 0) { number /= 10; digits++; }
-                    int first_space =(6-digits)/2;
+                    int number = i + 1;
+                    int digits = 0;
+                    while (number != 0) {
+                        number /= 10;
+                        digits++;
+                    }
+                    int first_space = (6 - digits) / 2;
                     cout << string(first_space, ' ');
-                    cout << Upurple << i+1 << green;
-                    cout << string(6-first_space-digits, ' '); 
+                    cout << Upurple << i + 1 << green;
+                    cout << string(6 - first_space - digits, ' ');
                     cout << "//\n";
                     cout << " /______//\n";
-                    cout << "(______(/\n\n"<<normal;
-         
-                    //cout << i+1 << "\n";
+                    cout << "(______(/\n\n"
+                         << normal;
+
+                    // cout << i+1 << "\n";
                     cout << library.at(i) << '\n';
                 }
 
                 break;
             }
-            case 5:{
-
-                if (rented_books.size() == 0){
+            case 5: {
+                if (rented_books.size() == 0) {
                     cout << "Non hai libri! \n";
                     break;
                 }
-                
+
                 for (int i = 0; i < rented_books.size(); i++) {
                     cout << "    " << green << "_______\n";
-                    cout <<"   /      /,\n";
+                    cout << "   /      /,\n";
                     cout << "  /";
-                    int number = i+1;
-                    int digits = 0; while (number != 0) { number /= 10; digits++; }
-                    int first_space =(6-digits)/2;
+                    int number = i + 1;
+                    int digits = 0;
+                    while (number != 0) {
+                        number /= 10;
+                        digits++;
+                    }
+                    int first_space = (6 - digits) / 2;
                     cout << string(first_space, ' ');
-                    cout << Upurple << i+1 << green;
-                    cout << string(6-first_space-digits, ' '); 
+                    cout << Upurple << i + 1 << green;
+                    cout << string(6 - first_space - digits, ' ');
                     cout << "//\n";
                     cout << " /______//\n";
-                    cout << "(______(/\n\n"<<normal;
-         
-                    //cout << i+1 << "\n";
+                    cout << "(______(/\n\n"
+                         << normal;
+
+                    // cout << i+1 << "\n";
                     cout << rented_books.at(i) << '\n';
                 }
                 break;
             }
-            
-            case 6:{
+
+            case 6: {
                 looping = false;
                 break;
             }
 
-            default:{
+            default: {
                 break;
             }
         }

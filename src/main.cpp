@@ -1,5 +1,6 @@
 #include <iomanip>
 #include <iostream>
+#include <limits>
 #include <vector>
 
 #include "book.h"
@@ -278,7 +279,7 @@ int main(int argc, char **argv) {
     book15.set_release(new Date(2022, 11, 19));
     book15.set_isbn("123-456-789-a");
     book15.set_release("2022/11/19");
-    book15.set_availabe(false);
+    book15.set_available(false);
 
     try {
         book15.set_isbn("123-456-789-?");
@@ -303,13 +304,22 @@ int main(int argc, char **argv) {
         cout << "[❌] Test Metodi Book Fallito\n";
     }
 
+    /*
+    ##################################################
+    #                   INTERAZIONE                  #
+    ##################################################
+    */
+
     Book racconti_da_lo_torbido_medioevo("Matteo", "Manenti", "Racconti da lo torbido medioevo", "222-333-444-c", "2022/11/15");
     Book millenovecentoottantaquattro("George", "Orwell", "1984");
     Book guida_galattica_per_gli_autostoppisti("Douglas", "Adams", "Guida galattica per gli autostoppisti", "88-41353-0", "1980/10/10");  // Non ho trovato ne mese ne giorno
     Book the_art_of_computer_programming("Donald", "Knuth", "The Art of Computer Programming", "0-75104-3", "1968/02/29");                // ho trovato solo il mese
 
+    guida_galattica_per_gli_autostoppisti.set_available(false);
+    the_art_of_computer_programming.set_available(false);
+
     vector<Book> library = {racconti_da_lo_torbido_medioevo, guida_galattica_per_gli_autostoppisti, millenovecentoottantaquattro, the_art_of_computer_programming};
-    vector<Book> rented_books = {millenovecentoottantaquattro, the_art_of_computer_programming};
+    vector<Book *> rented_books = {&guida_galattica_per_gli_autostoppisti, &the_art_of_computer_programming};
 
     cout << R"(
    ____________________________________________________
@@ -337,15 +347,13 @@ int main(int argc, char **argv) {
   |_________ __________\___\____/___/___________ ______|
   |__    _  /    ________     ______           /| _ _ _|
   |\ \  |=|/   //    /| //   /  /  / |        / ||%|%|%|
-  | \/\ |*/.  //____//.//   /__/__/ (_)      /  ||=|=|=|
-        __ |  \/\|
-        / / (____ | /              //                    /  /||~|~|~|__
-             | ___\_ / / ________  //   ________         /  / ||_|_|_|
-             | ___ / (| ________ / |\_______\ / / | | ______ | /                  \| ________) / / | |
-
-             ) " << '\n';
-                cout
-            << R"(
+  | \/\ |*/  .//____//.//   /__/__/ (_)      /  ||=|=|=|
+__|  \/\|/   /(____|/ //                    /  /||~|~|~|__
+  |___\_/   /________//   ________         /  / ||_|_|_|
+  |___ /   (|________/   |\_______\       /  /| |______|
+      /                  \|________)     /  / | |
+)" << '\n';
+    cout << R"(
  ____  ____  _  _  _  _  ____  _  _  __  __  ____  _____ 
 (  _ \( ___)( \( )( \/ )( ___)( \( )(  )(  )(_  _)(  _  )
  ) _ < )__)  )  (  \  /  )__)  )  (  )(__)(   )(   )(_)( 
@@ -361,7 +369,8 @@ int main(int argc, char **argv) {
         cout << "3) Depositare un libro preso in presito\n";
         cout << "4) Elencare i libri disponibili nella biblioteca\n";
         cout << "5) Elencare i libri che hai preso in prestito\n";
-        cout << "6) Uscire dal programma\n";
+        cout << "6) Elencare i libri della biblioteca inclusi quelli presi in prestito\n";
+        cout << "7) Uscire dal programma\n";
 
         int answer;
         cin >> answer;
@@ -370,7 +379,8 @@ int main(int argc, char **argv) {
             case 1: {
                 cout << "Inserisci il titolo del libro (premi invio se non presente): ";
                 string title;
-                getline(cin >> ws, title);
+                cin.ignore();
+                getline(cin, title);
                 cout << "Inserisci il nome dell'autore (premi invio se non presente): ";
                 string name;
                 getline(cin, name);
@@ -391,9 +401,20 @@ int main(int argc, char **argv) {
                 book_buffer.set_title(title);
 
                 if (isbn != "") {
-                    book_buffer.set_isbn(new ISBN(isbn));
-                } else {
-                    book_buffer.set_release(new Date(release));
+                    try {
+                        book_buffer.set_isbn(isbn);
+                    } catch (Book::InvalidBook e) {
+                        cout << "ISBN inserito non valido!\n";
+                        break;
+                    }
+                }
+                if (release != "") {
+                    try {
+                        book_buffer.set_release(release);
+                    } catch (Book::InvalidBook e) {
+                        cout << "Data di copyright non valida!\n";
+                        break;
+                    }
                 }
 
                 library.push_back(book_buffer);
@@ -407,36 +428,49 @@ int main(int argc, char **argv) {
                 }
 
                 for (int i = 0; i < library.size(); i++) {
-                    cout << "    " << green << "_______\n";
-                    cout << "   /      /,\n";
-                    cout << "  /";
-                    int number = i + 1;
-                    int digits = 0;
-                    while (number != 0) {
-                        number /= 10;
-                        digits++;
+                    if (library.at(i).available()) {
+                        cout << "    " << green << "_______\n";
+                        cout << "   /      /,\n";
+                        cout << "  /";
+                        int number = i + 1;
+                        int digits = 0;
+                        while (number != 0) {
+                            number /= 10;
+                            digits++;
+                        }
+                        int first_space = (6 - digits) / 2;
+                        cout << string(first_space, ' ');
+                        cout << Upurple << i + 1 << green;
+                        cout << string(6 - first_space - digits, ' ');
+                        cout << "//\n";
+                        cout << " /______//\n";
+                        cout << "(______(/\n\n"
+                             << normal;
+
+                        // cout << i+1 << "\n";
+                        cout << library.at(i) << '\n';
                     }
-                    int first_space = (6 - digits) / 2;
-                    cout << string(first_space, ' ');
-                    cout << Upurple << i + 1 << green;
-                    cout << string(6 - first_space - digits, ' ');
-                    cout << "//\n";
-                    cout << " /______//\n";
-                    cout << "(______(/\n\n"
-                         << normal;
-
-                    // cout << i+1 << "\n";
-                    cout << library.at(i) << '\n';
                 }
 
-                cout << "\nInserisci il numero corrispondente al libro che vuoi prendere (inserisci 0 per annullare): ";
-                int selection;
-                cin >> selection;
+                cout << "Inserisci il numero corrispondente al libro che vuoi prendere (inserisci 0 per annullare): ";
+                int selection = 0;
+                bool invalid = true;
+                while (invalid) {
+                    while (!(cin >> selection)) {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        cout << "Inserisci il numero corrispondente al libro che vuoi prendere (inserisci 0 per annullare): ";
+                    }
+                    if ((selection == 0) || (selection <= library.size() && library.at(selection - 1).available())) {
+                        invalid = false;
+                    } else {
+                        cout << "Inserisci il numero corrispondente al libro che vuoi prendere (inserisci 0 per annullare): ";
+                    }
+                }
                 if (selection != 0) {
-                    rented_books.push_back(library.at(selection - 1));
-                    library.erase(library.begin() + selection + 1);
+                    rented_books.push_back(&library.at(selection - 1));
+                    library.at(selection - 1).set_available(false);
                 }
-
                 break;
             }
             case 3: {
@@ -464,16 +498,31 @@ int main(int argc, char **argv) {
                     cout << "(______(/\n\n"
                          << normal;
 
-                    // cout << i+1 << "\n";
-                    cout << rented_books.at(i) << '\n';
+                    cout << *rented_books.at(i) << '\n';
                 }
 
-                cout << "\nInserisci il numero corrispondente al libro che vuoi prendere (inserisci 0 per annullare): ";
-                int selection;
-                cin >> selection;
-
+                cout << "Inserisci il numero corrispondente al libro che vuoi depositare (inserisci 0 per annullare): ";
+                int selection = 0;
+                bool invalid = true;
+                while (invalid) {
+                    while (!(cin >> selection)) {
+                        cin.clear();
+                        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                        cout << "Inserisci il numero corrispondente al libro che vuoi depositare (inserisci 0 per annullare): ";
+                    }
+                    if (selection <= rented_books.size()) {
+                        invalid = false;
+                    } else {
+                        cout << "Inserisci il numero corrispondente al libro che vuoi depositare (inserisci 0 per annullare): ";
+                    }
+                }
                 if (selection != 0) {
-                    library.push_back(rented_books.at(selection - 1));
+                    Book buffer = *rented_books.at(selection - 1);
+                    for (int i = 0; i < library.size(); i++) {
+                        if (library[i] == buffer) {
+                            library[i].set_available(true);
+                        }
+                    }
                     rented_books.erase(rented_books.begin() + selection + 1);
                 }
 
@@ -486,26 +535,27 @@ int main(int argc, char **argv) {
                 }
 
                 for (int i = 0; i < library.size(); i++) {
-                    cout << "    " << green << "_______\n";
-                    cout << "   /      /,\n";
-                    cout << "  /";
-                    int number = i + 1;
-                    int digits = 0;
-                    while (number != 0) {
-                        number /= 10;
-                        digits++;
-                    }
-                    int first_space = (6 - digits) / 2;
-                    cout << string(first_space, ' ');
-                    cout << Upurple << i + 1 << green;
-                    cout << string(6 - first_space - digits, ' ');
-                    cout << "//\n";
-                    cout << " /______//\n";
-                    cout << "(______(/\n\n"
-                         << normal;
+                    if (library.at(i).available()) {
+                        cout << "    " << green << "_______\n";
+                        cout << "   /      /,\n";
+                        cout << "  /";
+                        int number = i + 1;
+                        int digits = 0;
+                        while (number != 0) {
+                            number /= 10;
+                            digits++;
+                        }
+                        int first_space = (6 - digits) / 2;
+                        cout << string(first_space, ' ');
+                        cout << Upurple << i + 1 << green;
+                        cout << string(6 - first_space - digits, ' ');
+                        cout << "//\n";
+                        cout << " /______//\n";
+                        cout << "(______(/\n\n"
+                             << normal;
 
-                    // cout << i+1 << "\n";
-                    cout << library.at(i) << '\n';
+                        cout << library.at(i) << '\n';
+                    }
                 }
 
                 break;
@@ -535,13 +585,42 @@ int main(int argc, char **argv) {
                     cout << "(______(/\n\n"
                          << normal;
 
-                    // cout << i+1 << "\n";
-                    cout << rented_books.at(i) << '\n';
+                    cout << *rented_books.at(i) << '\n';
                 }
                 break;
             }
-
             case 6: {
+                if (library.size() == 0) {
+                    cout << "Non ci sono libri! \n";
+                    break;
+                }
+
+                for (int i = 0; i < library.size(); i++) {
+                    cout << "    " << green << "_______\n";
+                    cout << "   /      /,\n";
+                    cout << "  /";
+                    int number = i + 1;
+                    int digits = 0;
+                    while (number != 0) {
+                        number /= 10;
+                        digits++;
+                    }
+                    int first_space = (6 - digits) / 2;
+                    cout << string(first_space, ' ');
+                    cout << Upurple << i + 1 << green;
+                    cout << string(6 - first_space - digits, ' ');
+                    cout << "//\n";
+                    cout << " /______//\n";
+                    cout << "(______(/\n\n"
+                         << normal;
+
+                    cout << library.at(i) << '\n';
+                }
+
+                break;
+            }
+
+            case 7: {
                 looping = false;
                 break;
             }

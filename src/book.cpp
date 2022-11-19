@@ -115,34 +115,24 @@ void Book::set_release(std::string release_in) {
     }
 }
 
-void Book::set_availabe(bool available_in) {
+void Book::set_available(bool available_in) {
     _available = available_in;
 }
-
-/*std::ostream& operator<<(std::ostream& os, Book a){
-    if (a.status()){
-        return os << a.name() << " " << a.surname() << ", " << a.title() << ", " << a.release() << ", " << a.isbn() <<".\n"
-        << "The book is currently not available. It has been lended on this date: " << a.date_of_lend();
-    }else{
-        return os << a.name() << " " << a.surname() << ", " << a.title() << ", " << a.release() << ", " << a.isbn() <<".\n"
-        << "The book is currently available. It has been returned on this date: " << a.date_of_return();
-    }
-}*/
 
 std::ostream &operator<<(std::ostream &os, Book a) {
     os << ((a.title() == "") ? "Titolo non presente" : a.title());
     os << "\n"
        << ((a.surname() == "") ? "Cognome non presente" : a.surname()) << ", " << ((a.name() == "") ? "Nome non presente" : a.name());
-    if (a.isbn() != nullptr) {
+    try {
         os << "\n"
            << *a.isbn();
-    } else {
+    } catch (Book::FieldNotPresent e) {
         os << "";
     }
-    if (a.release() != nullptr) {
+    try {
         os << "\n"
            << *a.release();
-    } else {
+    } catch (Book::FieldNotPresent e) {
         os << "";
     }
     return os;

@@ -48,7 +48,7 @@ class Book {
     void set_release(Date *release_in);
     void set_isbn(std::string isbn_in);
     void set_release(std::string release_in);
-    void set_availabe(bool available_in);
+    void set_available(bool available_in);
 
     // Funzione per la gestione delle eccezioni, usata solo in condizioni di errore
     class InvalidBook {};

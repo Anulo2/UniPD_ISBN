@@ -319,7 +319,7 @@ int main(int argc, char **argv) {
     the_art_of_computer_programming.set_available(false);
 
     vector<Book> library = {racconti_da_lo_torbido_medioevo, guida_galattica_per_gli_autostoppisti, millenovecentoottantaquattro, the_art_of_computer_programming};
-    vector<Book *> rented_books = {&guida_galattica_per_gli_autostoppisti, &the_art_of_computer_programming};
+    vector<Book *> rented_books = {&guida_galattica_per_gli_autostoppisti, &the_art_of_computer_programming};  // Libri che hai preso in pretisto elencati come puntatori ai libri in biblioteca
 
     cout << R"(
    ____________________________________________________
@@ -352,32 +352,44 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
   |___\_/   /________//   ________         /  / ||_|_|_|
   |___ /   (|________/   |\_______\       /  /| |______|
       /                  \|________)     /  / | |
-)" << '\n';
+)";
     cout << R"(
  ____  ____  _  _  _  _  ____  _  _  __  __  ____  _____ 
 (  _ \( ___)( \( )( \/ )( ___)( \( )(  )(  )(_  _)(  _  )
  ) _ < )__)  )  (  \  /  )__)  )  (  )(__)(   )(   )(_)( 
 (____/(____)(_)\_)  \/  (____)(_)\_)(______) (__) (_____)
-)" << '\n';
+)";
 
     bool looping = true;
 
     while (looping) {
-        cout << "\nCosa vuoi fare?\n";
+        cout << "\nCosa vuoi fare?\n\n";
         cout << "1) Aggiungere un libro alla biblioteca\n";
         cout << "2) Prendere in prestito un libro\n";
         cout << "3) Depositare un libro preso in presito\n";
         cout << "4) Elencare i libri disponibili nella biblioteca\n";
         cout << "5) Elencare i libri che hai preso in prestito\n";
         cout << "6) Elencare i libri della biblioteca inclusi quelli presi in prestito\n";
-        cout << "7) Uscire dal programma\n";
+        cout << "7) Uscire dal programma\n\n";
+        cout << "Inserisci il numero corrispondente alla tua selezione: ";
+        int selection = 0;
+        bool invalid = true;
+        while (invalid) {
+            while (!(cin >> selection)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Inserisci il numero corrispondente alla tua selezione: ";
+            }
+            if (selection > 0 && selection < 8) {
+                invalid = false;
+            } else {
+                cout << "Inserisci il numero corrispondente alla tua selezione: ";
+            }
+        }
 
-        int answer;
-        cin >> answer;
-
-        switch (answer) {
+        switch (selection) {
             case 1: {
-                cout << "Inserisci il titolo del libro (premi invio se non presente): ";
+                cout << "\nInserisci il titolo del libro (premi invio se non presente): ";
                 string title;
                 cin.ignore();
                 getline(cin, title);
@@ -422,10 +434,7 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
                 break;
             }
             case 2: {
-                if (library.size() == 0) {
-                    cout << "Non ci sono libri! \n";
-                    break;
-                }
+                int available_books = 0;
 
                 for (int i = 0; i < library.size(); i++) {
                     if (library.at(i).available()) {
@@ -444,12 +453,16 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
                         cout << string(6 - first_space - digits, ' ');
                         cout << "//\n";
                         cout << " /______//\n";
-                        cout << "(______(/\n\n"
+                        cout << "(______(/\n"
                              << normal;
-
-                        // cout << i+1 << "\n";
                         cout << library.at(i) << '\n';
+                        available_books += 1;
                     }
+                }
+
+                if (available_books == 0) {
+                    cout << "\nNon ci sono libri! \n";
+                    break;
                 }
 
                 cout << "Inserisci il numero corrispondente al libro che vuoi prendere (inserisci 0 per annullare): ";
@@ -475,7 +488,7 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
             }
             case 3: {
                 if (rented_books.size() == 0) {
-                    cout << "Non hai libri! \n";
+                    cout << "\nNon hai libri! \n";
                     break;
                 }
 
@@ -495,7 +508,7 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
                     cout << string(6 - first_space - digits, ' ');
                     cout << "//\n";
                     cout << " /______//\n";
-                    cout << "(______(/\n\n"
+                    cout << "(______(/\n"
                          << normal;
 
                     cout << *rented_books.at(i) << '\n';
@@ -523,16 +536,13 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
                             library[i].set_available(true);
                         }
                     }
-                    rented_books.erase(rented_books.begin() + selection + 1);
+                    rented_books.erase(rented_books.begin() + selection - 1);
                 }
-
+                cin.ignore();
                 break;
             }
             case 4: {
-                if (library.size() == 0) {
-                    cout << "Non ci sono libri! \n";
-                    break;
-                }
+                int available_books = 0;
 
                 for (int i = 0; i < library.size(); i++) {
                     if (library.at(i).available()) {
@@ -551,18 +561,23 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
                         cout << string(6 - first_space - digits, ' ');
                         cout << "//\n";
                         cout << " /______//\n";
-                        cout << "(______(/\n\n"
+                        cout << "(______(/\n"
                              << normal;
 
-                        cout << library.at(i) << '\n';
+                        cout << library.at(i);
+                        available_books += 1;
                     }
+                }
+                if (available_books == 0) {
+                    cout << "\nNon ci sono libri! \n";
+                    break;
                 }
 
                 break;
             }
             case 5: {
                 if (rented_books.size() == 0) {
-                    cout << "Non hai libri! \n";
+                    cout << "\nNon hai libri! \n";
                     break;
                 }
 
@@ -585,7 +600,7 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
                     cout << "(______(/\n\n"
                          << normal;
 
-                    cout << *rented_books.at(i) << '\n';
+                    cout << *rented_books.at(i);
                 }
                 break;
             }
@@ -611,10 +626,10 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
                     cout << string(6 - first_space - digits, ' ');
                     cout << "//\n";
                     cout << " /______//\n";
-                    cout << "(______(/\n\n"
+                    cout << "(______(/\n"
                          << normal;
 
-                    cout << library.at(i) << '\n';
+                    cout << library.at(i);
                 }
 
                 break;

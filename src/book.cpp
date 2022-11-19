@@ -122,16 +122,16 @@ void Book::set_available(bool available_in) {
 std::ostream &operator<<(std::ostream &os, Book a) {
     os << ((a.title() == "") ? "Titolo non presente" : a.title());
     os << "\n"
-       << ((a.surname() == "") ? "Cognome non presente" : a.surname()) << ", " << ((a.name() == "") ? "Nome non presente" : a.name());
+       << ((a.surname() == "") ? "Cognome non presente" : a.surname()) << ", " << ((a.name() == "") ? "Nome non presente" : a.name()) << "\n";
     try {
-        os << "\n"
-           << *a.isbn();
+        os << *a.isbn();
+        os << "\n";
     } catch (Book::FieldNotPresent e) {
         os << "";
     }
     try {
-        os << "\n"
-           << *a.release();
+        os << *a.release();
+        os << "\n";
     } catch (Book::FieldNotPresent e) {
         os << "";
     }

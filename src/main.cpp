@@ -646,6 +646,6 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
         }
     }
 
-    cout << "Arrivederci!\n";
+    cout << "\nArrivederci!\n";
     return 0;
 }

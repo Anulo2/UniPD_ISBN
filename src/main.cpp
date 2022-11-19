@@ -434,7 +434,7 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
                 break;
             }
             case 2: {
-                int available_books = 0;
+                vector<Book *> available_books = {};
 
                 for (int i = 0; i < library.size(); i++) {
                     if (library.at(i).available()) {
@@ -449,18 +449,18 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
                         }
                         int first_space = (6 - digits) / 2;
                         cout << string(first_space, ' ');
-                        cout << Upurple << i + 1 << green;
+                        cout << Upurple << available_books.size() + 1 << green;
                         cout << string(6 - first_space - digits, ' ');
                         cout << "//\n";
                         cout << " /______//\n";
                         cout << "(______(/\n"
                              << normal;
                         cout << library.at(i) << '\n';
-                        available_books += 1;
+                        available_books.push_back(&library.at(i));
                     }
                 }
 
-                if (available_books == 0) {
+                if (available_books.size() == 0) {
                     cout << "\nNon ci sono libri! \n";
                     break;
                 }
@@ -474,15 +474,15 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
                         cin.ignore(numeric_limits<streamsize>::max(), '\n');
                         cout << "Inserisci il numero corrispondente al libro che vuoi prendere (inserisci 0 per annullare): ";
                     }
-                    if ((selection == 0) || (selection <= library.size() && library.at(selection - 1).available())) {
+                    if ((selection == 0) || (selection <= available_books.size() && (*available_books.at(selection - 1)).available())) {
                         invalid = false;
                     } else {
                         cout << "Inserisci il numero corrispondente al libro che vuoi prendere (inserisci 0 per annullare): ";
                     }
                 }
                 if (selection != 0) {
-                    rented_books.push_back(&library.at(selection - 1));
-                    library.at(selection - 1).set_available(false);
+                    rented_books.push_back(available_books.at(selection - 1));
+                    (*available_books.at(selection - 1)).set_available(false);
                 }
                 break;
             }
@@ -542,7 +542,7 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
                 break;
             }
             case 4: {
-                int available_books = 0;
+                vector<Book *> available_books = {};
 
                 for (int i = 0; i < library.size(); i++) {
                     if (library.at(i).available()) {
@@ -557,7 +557,7 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
                         }
                         int first_space = (6 - digits) / 2;
                         cout << string(first_space, ' ');
-                        cout << Upurple << i + 1 << green;
+                        cout << Upurple << available_books.size() + 1 << green;
                         cout << string(6 - first_space - digits, ' ');
                         cout << "//\n";
                         cout << " /______//\n";
@@ -565,10 +565,10 @@ __|  \/\|/   /(____|/ //                    /  /||~|~|~|__
                              << normal;
 
                         cout << library.at(i);
-                        available_books += 1;
+                        available_books.push_back(&library.at(i));
                     }
                 }
-                if (available_books == 0) {
+                if (available_books.size() == 0) {
                     cout << "\nNon ci sono libri! \n";
                     break;
                 }

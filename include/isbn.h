@@ -38,7 +38,7 @@ class ISBN {
     char field4;
 
     // Funzione per il controllo della valitá di field4
-    // necessaria in quanto char, devono essere inserite solo lettere o numeri
+    // necessaria in quanto char, devono essere inserite solo lettere o numeri e non altri caratteri speciali
     bool is_invalid(void) const { return (field4 < 'a' || field4 > 'z') && (field4 < 'A' || field4 > 'Z') && (field4 < '0' || field4 > '9'); }
 
     int to_int(std::string in);

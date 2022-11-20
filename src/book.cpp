@@ -119,6 +119,7 @@ void Book::set_available(bool available_in) {
     _available = available_in;
 }
 
+//output nello stream con formattazione
 std::ostream &operator<<(std::ostream &os, Book a) {
     os << ((a.title() == "") ? "Titolo non presente" : a.title());
     os << "\n"
@@ -138,6 +139,7 @@ std::ostream &operator<<(std::ostream &os, Book a) {
     return os;
 }
 
+//operatore di uguaglianza
 bool operator==(Book a, Book b) {
     return (a.name() == b.name() && a.surname() == b.surname() && a.title() == b.title() && a.isbn() == b.isbn() && a.release() == b.release());
 }

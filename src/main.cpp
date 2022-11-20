@@ -96,6 +96,10 @@ int main(int argc, char **argv) {
         valid = false;
     }
 
+    if (date12 != date13) {
+        valid = false;
+    }
+
     if (valid) {
         cout << "[✅] Test Metodi Date Completato\n";
     } else {
@@ -174,6 +178,10 @@ int main(int argc, char **argv) {
     isbn8 = isbn7;
 
     if (!(isbn7 == isbn8)) {
+        valid = false;
+    }
+
+    if (isbn7 != isbn8) {
         valid = false;
     }
 
@@ -275,6 +283,15 @@ int main(int argc, char **argv) {
         valid = false;
     } catch (Book::FieldNotPresent e) {
     }
+
+    if (book14 == book15) {
+        valid = false;
+    }
+
+    if (!(book14 != book15)) {
+        valid = false;
+    }
+
     book15.set_isbn(new ISBN(123, 456, 789, 'a'));
     book15.set_release(new Date(2022, 11, 19));
     book15.set_isbn("123-456-789-a");
@@ -295,6 +312,10 @@ int main(int argc, char **argv) {
     book15 = book14;
 
     if (!(book14 == book15)) {
+        valid = false;
+    }
+
+    if (book14 != book15) {
         valid = false;
     }
 

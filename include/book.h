@@ -70,4 +70,6 @@ std::ostream &operator<<(std::ostream &os, Book a);
 // Operatore di uguaglianza
 bool operator==(Book a, Book b);
 
+bool operator!=(Book a, Book b);
+
 #endif  // BOOK_H

@@ -2,7 +2,7 @@
 
 // Costruttore ISBN con 4 campi separati
 ISBN::ISBN(int field1_in, int field2_in, int field3_in, char field4_in) : field1{field1_in}, field2{field2_in}, field3{field3_in}, field4{field4_in} {
-    if (is_invalid()) {             // il campo field4 può contenere solo lettere e numeri
+    if (is_invalid()) {  // il campo field4 può contenere solo lettere e numeri
         throw InvalidIdentifier();
     }
 }
@@ -20,17 +20,17 @@ ISBN::ISBN(std::string isbn) {
 
     fields.push_back(isbn.substr(start, end - start));
 
-    //conversione dei primi 3 campi in numeri interi
+    // conversione dei primi 3 campi in numeri interi
     field1 = to_int(fields[0]);
     field2 = to_int(fields[1]);
     field3 = to_int(fields[2]);
-    field4 = fields[3][0];      
+    field4 = fields[3][0];
     if (is_invalid()) {
         throw InvalidIdentifier();
     }
 }
 
-//Conversione dell'ISBN (stringa) in un intero
+// Conversione dell'ISBN (stringa) in un intero
 int ISBN::to_int(std::string in) {
     int result = 0;
     for (char& c : in) {
@@ -56,6 +56,10 @@ ISBN& ISBN::operator=(ISBN a) {
 // Operatore di uguaglianza
 bool operator==(ISBN a, ISBN b) {
     return a.get_field1() == b.get_field1() && a.get_field2() == b.get_field2() && a.get_field3() == b.get_field3() && a.get_field4() == b.get_field4();
+}
+
+bool operator!=(ISBN a, ISBN b) {
+    return a.get_field1() != b.get_field1() || a.get_field2() != b.get_field2() || a.get_field3() != b.get_field3() || a.get_field4() != b.get_field4();
 }
 
 // output nello stream formattato

@@ -48,6 +48,8 @@ class ISBN {
 // Operatore di uguaglianza
 bool operator==(ISBN a, ISBN b);
 
+bool operator!=(ISBN a, ISBN b);
+
 // Output to stream
 std::ostream& operator<<(std::ostream& os, ISBN& a);
 std::ostream& operator<<(std::ostream& os, ISBN* a);

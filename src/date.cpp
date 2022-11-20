@@ -3,7 +3,7 @@
 // Array che definisce la lunghezza di ogni mese
 static int length[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-//costruttori
+// costruttori
 Date::Date(int yy) : y{yy} {
     if (!is_valid()) throw Invalid();
 }
@@ -16,7 +16,7 @@ Date::Date(int yy, int mm, int dd) : y{yy}, m{mm}, d{dd} {
     if (!is_valid()) throw Invalid();
 }
 
-//costruttore di Date con stringa
+// costruttore di Date con stringa
 Date::Date(std::string date) {
     std::vector<std::string> fields;
     int start = 0;
@@ -28,9 +28,9 @@ Date::Date(std::string date) {
     }
 
     fields.push_back(date.substr(start, end - start));
-    
-    //ogni campo inserito nella data viene convertito
-    //in un valore intero e salvato nelle apposite variabili
+
+    // ogni campo inserito nella data viene convertito
+    // in un valore intero e salvato nelle apposite variabili
 
     y = to_int(fields[0]);
 
@@ -44,7 +44,7 @@ Date::Date(std::string date) {
     if (!is_valid()) throw Invalid();
 }
 
-//conversione della data (stringa) in un numero intero
+// conversione della data (stringa) in un numero intero
 int Date::to_int(std::string in) {
     int result = 0;
     for (char& c : in) {
@@ -100,6 +100,10 @@ std::ostream& operator<<(std::ostream& os, Date* a) {
 // Operatore di uguaglianza
 bool operator==(Date a, Date b) {
     return (a.get_year() == b.get_year()) && (a.get_month() == b.get_month()) && (a.get_day() == b.get_day());
+}
+
+bool operator!=(Date a, Date b) {
+    return (a.get_year() != b.get_year()) || (a.get_month() != b.get_month()) || (a.get_day() != b.get_day());
 }
 
 // operatore di assegnazione

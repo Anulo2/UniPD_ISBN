@@ -43,4 +43,6 @@ std::ostream& operator<<(std::ostream& os, Date* a);
 // Operatore di uguaglianza
 bool operator==(Date a, Date b);
 
+bool operator!=(Date a, Date b);
+
 #endif  // DATE_H
